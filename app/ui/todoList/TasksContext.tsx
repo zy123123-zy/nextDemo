@@ -1,12 +1,13 @@
 'use client'
 
 import { createContext, useContext, useReducer } from 'react';
+import { Task, TaskAction, TaskReducer } from '@/app/lib/definitions'
 
-const TasksContext = createContext(null);
+const TasksContext = createContext<Task[]>([]);
 
-const TasksDispatchContext = createContext(null);
+const TasksDispatchContext = createContext<React.Dispatch<any>>(() => { });
 
-export function TasksProvider({ children }) {
+export function TasksProvider({ children }: { children: React.ReactNode }) {
   const [tasks, dispatch] = useReducer(
     tasksReducer,
     initialTasks
@@ -25,11 +26,11 @@ export function useTasks() {
   return useContext(TasksContext);
 }
 
-export function useTasksDispatch() {
+export function useTasksDispatch(): Function {
   return useContext(TasksDispatchContext);
 }
 
-function tasksReducer(tasks, action) {
+const tasksReducer: TaskReducer = (tasks: Task[], action: TaskAction) => {
   switch (action.type) {
     case 'added': {
       return [...tasks, {

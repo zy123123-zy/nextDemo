@@ -2,9 +2,10 @@
 
 import { useState } from 'react';
 import { useTasks, useTasksDispatch } from './TasksContext';
+import { Task } from '@/app/lib/definitions'
 
 export default function TaskList() {
-  const tasks = useTasks();
+  const tasks: Task[] = useTasks();
   return (
     <ul>
       {tasks.map(task => (
@@ -16,7 +17,7 @@ export default function TaskList() {
   );
 }
 
-function Task({ task }) {
+function Task({ task }: { task: Task }) {
   const [isEditing, setIsEditing] = useState(false);
   const dispatch = useTasksDispatch();
   let taskContent;
